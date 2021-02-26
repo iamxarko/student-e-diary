@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 export class AuthService implements CanActivate {
 
   // tslint:disable-next-line:no-inferrable-types
-  isLoggedIn: boolean = true;
+  isLoggedIn: boolean = false;
   constructor(private router: Router) { }
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     if (this.isLoggedIn) {
