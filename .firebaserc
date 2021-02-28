@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "student-e-diary": {
+      "hosting": {
+        "student-e-diary": [
+          "student-e-diary"
+        ]
+      }
+    }
+  }
+}

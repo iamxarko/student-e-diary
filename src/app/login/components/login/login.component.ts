@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
+import { LoginService } from '../../service/login.service';
 
 @Component({
   selector: 'app-login',
@@ -7,19 +8,30 @@ import { FormControl, Validators } from '@angular/forms';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-  email = new FormControl('', [Validators.required, Validators.email]);
+  userId = new FormControl('', [Validators.required]);
+  password = new FormControl('', [Validators.required]);
   hide = true;
 
-  constructor() { }
+  constructor(private loginService: LoginService) { }
 
   ngOnInit(): void {
   }
-   getErrorMessage() {
-    if (this.email.hasError('required')) {
-      return 'You must enter a value';
+   getUserIdErrorMessage() {
+    if (this.userId.hasError('required')) {
+      return 'You must enter a user id';
     }
+    return this.userId.hasError('userId') ? 'Not a valid id' : '';
+  }
+  getPasswordErrorMessage() {
+    if (this.password.hasError('required')) {
+      return 'You must enter password';
+    }
+    return this.password.hasError('userId') ? 'Not a valid password' : '';
+  }
 
-    return this.email.hasError('email') ? 'Not a valid email' : '';
+  login = () => {
+    console.log('I am here');
+    this.loginService.logIn(this.userId.value, this.password.value);
   }
 
 }
