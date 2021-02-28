@@ -29,3 +29,5 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 ng g m user-management --routing
 
 ng g c user-management/components/user-management --module user-management
+
+ng g s ../app/attendance-management/services/attendance-management 

@@ -1,0 +1,12 @@
+.am-container {
+  max-width: 1024px;
+  margin: auto;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 16px 0 16px;
+}
+.am-field {
+  width: 100%;
+}

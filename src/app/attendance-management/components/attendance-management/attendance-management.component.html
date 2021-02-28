@@ -1,0 +1,23 @@
+<div>
+<div class="am-container">
+  <mat-form-field class="example-full-width">
+    <mat-label>Subject</mat-label>
+    <input type="text" aria-label="Subject" matInput [formControl]="subject"
+      [matAutocomplete]="auto">
+    <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+      <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+        {{option}}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+  <mat-form-field color="accent" appearance="fill">
+    <mat-label>Date</mat-label>
+    <input matInput [matDatepicker]="picker" (dateChange)="onDateChange($event.value)" required>
+    <mat-datepicker-toggle matSuffix [for]="picker" ></mat-datepicker-toggle>
+    <mat-datepicker #picker color="primary"></mat-datepicker>
+  </mat-form-field>
+</div>
+<div>
+  {{attendances | json}}
+</div>
+</div>
