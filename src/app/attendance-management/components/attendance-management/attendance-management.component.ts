@@ -4,6 +4,8 @@ import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { Attendance } from 'src/app/models/attendance.model';
 import { AttendanceManagementService } from '../../services/attendance-management.service';
+import { MatTableDataSource } from '@angular/material/table';
+import { LoginService } from 'src/app/login/service/login.service';
 
 @Component({
   selector: 'app-attendance-management',
@@ -21,12 +23,25 @@ export class AttendanceManagementComponent implements OnInit {
   studentOptions: any[] = [];
   filteredStudentOptions: Observable<any[]> | undefined;
   result: any;
+  user;
+
+  // Table section
+
+  displayedColumns: string[] = ['studentId', 'name', 'attendance'];
+  dataSource = new MatTableDataSource<Attendance>([]);
+
+  // =======
 
 
-  constructor(private attendanceManagementService: AttendanceManagementService) {
+  constructor(private attendanceManagementService: AttendanceManagementService, private loginService: LoginService) {
+    this.user = this.loginService.getUser();
     this.attendanceManagementService.getAttendance().subscribe(result => {
       this.result = result;
       this.attendances = this.result[this.subject.value][this.date.value];
+      if (this.user.userType === 'student') {
+        this.attendances = this.attendances.filter(a => a.studentId === this.user.userId);
+      }
+      this.dataSource = new MatTableDataSource(this.attendances);
     });
 
     this.attendanceManagementService.getStudents().subscribe(students => {
@@ -43,12 +58,16 @@ export class AttendanceManagementComponent implements OnInit {
     this.filteredStudentOptions = this.student.valueChanges.pipe(
       startWith(''),
       map((value) => (typeof value === 'string') ? value : value.userId),
-      map((userId) => (userId ? this.filterStudentOptions(userId) : this.studentOptions.slice()) )
+      map((userId) => (userId ? this.filterStudentOptions(userId) : this.studentOptions.slice()))
     );
     this.subject.valueChanges.subscribe(value => {
       const sub = this.result[value];
       if (sub) {
-      this.attendances = sub[this.date.value] || [];
+        this.attendances = sub[this.date.value] || [];
+        if (this.user.userType === 'student') {
+          this.attendances = this.attendances.filter(a => a.studentId === this.user.userId);
+        }
+        this.dataSource = new MatTableDataSource(this.attendances);
       }
     });
   }
@@ -72,10 +91,14 @@ export class AttendanceManagementComponent implements OnInit {
     this.date.setValue(dateResult);
     if (sub) {
       this.attendances = sub[dateResult] || [];
+      if (this.user.userType === 'student') {
+        this.attendances = this.attendances.filter(a => a.studentId === this.user.userId);
+      }
+      this.dataSource = new MatTableDataSource(this.attendances);
     }
   }
 
-   getFormattedDate = (date: Date) => {
+  getFormattedDate = (date: Date) => {
     const month = ('0' + (date.getMonth() + 1)).slice(-2);
     const day = ('0' + date.getDate()).slice(-2);
     return [day, month, date.getFullYear()].join('-');
@@ -86,10 +109,17 @@ export class AttendanceManagementComponent implements OnInit {
   }
 
   onPresent = () => {
-    this.attendanceManagementService.markPresent(this.subject.value, this.date.value, this.student.value);
+    this.attendanceManagementService.markPresent(this.subject.value, this.date.value, this.student.value, this.attendances);
   }
 
   onAbsent = () => {
-    this.attendanceManagementService.markAbsent(this.subject.value, this.date.value, this.student.value);
+    this.attendanceManagementService.markAbsent(this.subject.value, this.date.value, this.student.value, this.attendances);
   }
+
+  // Table section
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+  // -----
 }
