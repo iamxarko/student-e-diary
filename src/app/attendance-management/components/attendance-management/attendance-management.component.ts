@@ -38,7 +38,7 @@ export class AttendanceManagementComponent implements OnInit {
     this.attendanceManagementService.getAttendance().subscribe(result => {
       this.result = result;
       this.attendances = this.result[this.subject.value][this.date.value];
-      if (this.user.userType === 'student') {
+      if (this.user.userType === 'Student') {
         this.attendances = this.attendances.filter(a => a.studentId === this.user.userId);
       }
       this.dataSource = new MatTableDataSource(this.attendances);
@@ -64,7 +64,7 @@ export class AttendanceManagementComponent implements OnInit {
       const sub = this.result[value];
       if (sub) {
         this.attendances = sub[this.date.value] || [];
-        if (this.user.userType === 'student') {
+        if (this.user.userType === 'Student') {
           this.attendances = this.attendances.filter(a => a.studentId === this.user.userId);
         }
         this.dataSource = new MatTableDataSource(this.attendances);
@@ -91,7 +91,7 @@ export class AttendanceManagementComponent implements OnInit {
     this.date.setValue(dateResult);
     if (sub) {
       this.attendances = sub[dateResult] || [];
-      if (this.user.userType === 'student') {
+      if (this.user.userType === 'Student') {
         this.attendances = this.attendances.filter(a => a.studentId === this.user.userId);
       }
       this.dataSource = new MatTableDataSource(this.attendances);

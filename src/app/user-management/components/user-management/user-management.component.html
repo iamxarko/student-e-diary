@@ -1,1 +1,69 @@
-<p>user-management works!</p>
+<div class="um-container">
+  <div class="example-form">
+    <mat-form-field class="example-full-width">
+      <mat-label>User Id</mat-label>
+      <input matInput [formControl]="userId" placeholder="User Id" required>
+    </mat-form-field>
+    <mat-form-field class="example-full-width">
+      <mat-label>Name</mat-label>
+      <input matInput [formControl]="name" placeholder="Name">
+    </mat-form-field>
+    <mat-form-field class="example-full-width">
+      <mat-label>Password</mat-label>
+      <input matInput [formControl]="password" placeholder="Password">
+    </mat-form-field>
+    <mat-form-field class="example-full-width">
+      <mat-label>User Type</mat-label>
+      <input type="text" aria-label="User Type" matInput [formControl]="userType" [matAutocomplete]="auto">
+      <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+        <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+          {{option}}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+    <div class="um-buttons">
+      <button (click)="add()" mat-raised-button color="primary" class="add-button">Add/Update</button>
+      <button (click)="delete()" mat-raised-button color="primary" class="delete-button">Delete</button>
+    </div>
+    <div class="filter">
+      <mat-form-field>
+        <mat-label>Filter</mat-label>
+        <input matInput (keyup)="applyFilter($event)" #input>
+      </mat-form-field>
+    </div>
+    <div class="um-table mat-elevation-z8">
+
+
+      <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+        <!-- ID Column -->
+        <ng-container matColumnDef="userId">
+          <th mat-header-cell *matHeaderCellDef> ID </th>
+          <td mat-cell *matCellDef="let element"> {{element.userId}} </td>
+        </ng-container>
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef> Name </th>
+          <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+        </ng-container>
+
+        <!-- Password Column -->
+        <ng-container matColumnDef="password">
+          <th mat-header-cell *matHeaderCellDef> Password </th>
+          <td mat-cell *matCellDef="let element"> {{element.password}} </td>
+        </ng-container>
+
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+        <!-- Row shown when there is no matching data. -->
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell" colspan="4">No data found!</td>
+        </tr>
+      </table>
+    </div>
+
+  </div>
+</div>

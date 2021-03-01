@@ -25,7 +25,7 @@ export class DashboardComponent {
       }
     });
     const user = this.loginService.getUser();
-    this.loginService.getMenus(user.userId).subscribe(menus => {
+    this.loginService.getMenus(user.userType).subscribe(menus => {
       if (menus) {
         this.menus = menus;
         console.log(this.menus);

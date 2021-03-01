@@ -16,7 +16,7 @@ export class AttendanceManagementService {
   }
 
   getStudents = () => {
-    return this.store.list(`/users`, ref => ref.orderByChild('userType').equalTo('student')).valueChanges();
+    return this.store.list(`/users`, ref => ref.orderByChild('userType').equalTo('Student')).valueChanges();
   }
 
   markAbsent(subject: any, date: any, student: any, attendances: Attendance[]) {

@@ -1,0 +1,51 @@
+.example-form {
+  min-width: 150px;
+  max-width: 500px;
+  width: 100%;
+}
+.um-container{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 80%;
+  margin: auto;
+  height: 100vh;
+
+  @media only screen and (min-width:768px) {
+    width: 50%;
+  }
+
+  @media only screen and (min-width:1024px) {
+    width: 400px;
+  }
+}
+
+.add-button{
+margin-right: 4px;
+}
+
+.delete-button{
+  margin-left: 4px;
+
+}
+ /* Structure */
+ table {
+   width: 100%;
+ }
+
+ .mat-form-field {
+   font-size: 14px;
+   width: 100%;
+ }
+.um-table{
+
+  height: 31vh;
+  overflow: auto;
+}
+
+.filter{
+   margin-top: 12px;
+   margin-bottom: 8px;
+
+}

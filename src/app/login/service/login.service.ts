@@ -40,7 +40,7 @@ export class LoginService {
     return user ? JSON.parse(user) : user;
   }
 
-  getMenus = (userId: string) => {
-    return this.store.object<Menu[]>(`/menus/${userId}`).valueChanges();
+  getMenus = (userType: string) => {
+    return this.store.object<Menu[]>(`/menus/${userType}`).valueChanges();
   }
 }
