@@ -9,20 +9,20 @@ import { Router } from '@angular/router';
 })
 export class AppComponent {
   userId = '';
-  constructor(private loginService: LoginService,private route: Router) {
-    if(loginService.getUser()){
-      this.userId= loginService.getUser().userId;
+  constructor(private loginService: LoginService, private route: Router) {
+    if (loginService.getUser()) {
+      this.userId = loginService.getUser().userId;
       //console.log(this.userId);
     }
-   }
-   
-   isLoggedIn = () => {
-     return this.loginService.isLoggedIn();
-   }
-  logOut=() => {
+  }
+
+  isLoggedIn = () => {
+    return this.loginService.isLoggedIn();
+  }
+  logOut = () => {
     this.loginService.logOut();
   }
-  home =() =>{
+  home = () => {
     this.route.navigateByUrl('/');
   }
 }

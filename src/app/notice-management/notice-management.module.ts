@@ -1,14 +1,20 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
 import { NoticeManagementRoutingModule } from './notice-management-routing.module';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MaterialModule } from '../material.module';
+import { NoticeManagementComponent } from './components/notice-management/notice-management.component';
+
 
 
 @NgModule({
-  declarations: [],
+  declarations: [NoticeManagementComponent],
   imports: [
     CommonModule,
-    NoticeManagementRoutingModule
+    NoticeManagementRoutingModule,
+    MaterialModule,
+    FormsModule,
+    ReactiveFormsModule
   ]
 })
 export class NoticeManagementModule { }
