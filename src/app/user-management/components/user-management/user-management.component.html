@@ -14,12 +14,17 @@
     </mat-form-field>
     <mat-form-field class="example-full-width">
       <mat-label>User Type</mat-label>
-      <input type="text" aria-label="User Type" matInput [formControl]="userType" [matAutocomplete]="auto">
+      <mat-select aria-label="User Type" [formControl]="userType">
+        <mat-option *ngFor="let option of options" [value]="option">
+          {{option}}
+        </mat-option>
+      </mat-select>
+      <!-- <input type="text" aria-label="User Type" matInput [formControl]="userType" [matAutocomplete]="auto">
       <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
         <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
           {{option}}
         </mat-option>
-      </mat-autocomplete>
+      </mat-autocomplete> -->
     </mat-form-field>
     <div class="um-buttons">
       <button (click)="add()" mat-raised-button color="primary" class="add-button">Add/Update</button>

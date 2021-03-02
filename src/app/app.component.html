@@ -1,1 +1,22 @@
+<header>
+    <div *ngIf="isLoggedIn()">
+        <p>
+            <mat-toolbar color="primary">
+              <button (click)="home()" mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
+                <mat-icon>home</mat-icon>
+              </button>
+              <span>SeD</span>
+              <span class="example-spacer"></span>
+              <span>{{userId}}</span>
+              <button (click)="logOut()" mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
+                <mat-icon>logout</mat-icon>
+              </button>
+            </mat-toolbar>
+          </p>
+
+        <!-- <button (click)="logOut()">
+            <mat-icon aria-hidden="false" aria-label="Example home icon">logout</mat-icon>
+        </button> -->
+    </div>
+</header>
 <router-outlet></router-outlet>

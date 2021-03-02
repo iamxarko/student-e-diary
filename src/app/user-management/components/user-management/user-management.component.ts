@@ -20,7 +20,6 @@ export class UserManagementComponent implements OnInit {
   password = new FormControl('', Validators.required);
   userType = new FormControl('Admin', [Validators.required]);
   options: string[] = ['Admin', 'Student', 'Teacher'];
-  filteredOptions: Observable<string[]> | undefined;
 
 
   displayedColumns: string[] = ['userId', 'name', 'password'];
@@ -36,10 +35,6 @@ export class UserManagementComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.filteredOptions = this.userType.valueChanges.pipe(
-      startWith(''),
-      map(value => this.filterOptions(value))
-    );
     this.userId.valueChanges.subscribe(value => {
       const user = this.users.find(u => u.userId === value);
       if (user) {

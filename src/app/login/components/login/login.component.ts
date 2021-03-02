@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { LoginService } from '../../service/login.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -12,9 +13,12 @@ export class LoginComponent implements OnInit {
   password = new FormControl('', [Validators.required]);
   hide = true;
 
-  constructor(private loginService: LoginService) { }
+  constructor(private loginService: LoginService, private route: Router) { }
 
   ngOnInit(): void {
+    if(this.loginService.isLoggedIn()){
+      this.route.navigateByUrl('/');
+    }
   }
    getUserIdErrorMessage() {
     if (this.userId.hasError('required')) {
