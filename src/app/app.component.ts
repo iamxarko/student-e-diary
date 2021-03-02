@@ -8,9 +8,12 @@ import { Router } from '@angular/router';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  userId;
+  userId = '';
   constructor(private loginService: LoginService,private route: Router) {
-    this.userId= loginService.getUser().userId;
+    if(loginService.getUser()){
+      this.userId= loginService.getUser().userId;
+      //console.log(this.userId);
+    }
    }
    
    isLoggedIn = () => {
