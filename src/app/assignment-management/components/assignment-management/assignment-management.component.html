@@ -1,4 +1,4 @@
-<!-- <div>
+ <div class="am-container">
   <mat-form-field class="example-full-width">
     <mat-label>Subject</mat-label>
     <input type="text" aria-label="Subject" matInput [formControl]="subject" [matAutocomplete]="auto">
@@ -8,5 +8,7 @@
       </mat-option>
     </mat-autocomplete>
   </mat-form-field>
-  </div> -->
-  <p class="wip">Work in progress</p>
+ </div>
+ <div>
+  <app-upload [type]="'assignments'" [subject]="subject.value"></app-upload>
+  </div>

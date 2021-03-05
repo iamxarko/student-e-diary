@@ -5,6 +5,7 @@ import { AssignmentManagementRoutingModule } from './assignment-management-routi
 import { AssignmentManagementComponent } from './components/assignment-management/assignment-management.component';
 import { MaterialModule } from '../material.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { SharedModule } from '../shared/shared.module';
 
 
 @NgModule({
@@ -14,7 +15,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     AssignmentManagementRoutingModule,
     MaterialModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    SharedModule
   ]
 })
 export class AssignmentManagementModule { }
