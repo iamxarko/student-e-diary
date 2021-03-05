@@ -30,4 +30,4 @@ ng g m user-management --routing
 
 ng g c user-management/components/user-management --module user-management
 
-ng g s ../app/attendance-management/services/attendance-management 
+ng g s ../app/attendance-management/services/attendance-management

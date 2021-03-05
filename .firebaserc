@@ -1,11 +1,5 @@
 {
-  "targets": {
-    "student-e-diary": {
-      "hosting": {
-        "student-e-diary": [
-          "student-e-diary"
-        ]
-      }
-    }
+  "projects": {
+    "default": "student-e-diary"
   }
 }

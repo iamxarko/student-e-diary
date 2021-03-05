@@ -7,9 +7,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ResultManagementComponent implements OnInit {
 
+
   constructor() { }
 
   ngOnInit(): void {
+
   }
+
 
 }

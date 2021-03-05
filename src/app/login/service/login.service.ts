@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable, Output } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/database';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
@@ -9,6 +9,9 @@ import { Menu } from 'src/app/models/menu.model';
 })
 export class LoginService {
 
+  @Output()
+  fireIsLoggedIn: EventEmitter<any> = new EventEmitter<any>();
+
   constructor(private route: Router, private snackBar: MatSnackBar, private store: AngularFireDatabase) { }
 
   logIn = (userId: string, password: string) => {
@@ -16,6 +19,7 @@ export class LoginService {
       if (val && val.password === password) {
         localStorage.setItem('user', JSON.stringify(val));
         this.route.navigateByUrl('/');
+        this.fireIsLoggedIn.emit(this.getUser());
       }
       else {
         this.snackBar.open('Invalid UserId or Password!', 'Dismiss', {
@@ -23,6 +27,10 @@ export class LoginService {
         });
       }
     });
+  }
+
+  getEmmiter = () => {
+    return this.fireIsLoggedIn;
   }
 
   logOut = () => {

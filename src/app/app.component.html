@@ -19,4 +19,5 @@
         </button> -->
     </div>
 </header>
+<div *ngIf="isLoggedIn()" class="menu-title"><span>{{title}}</span><mat-icon>chevron_right</mat-icon></div>
 <router-outlet></router-outlet>

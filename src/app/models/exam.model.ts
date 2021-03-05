@@ -1,4 +1,4 @@
-export interface Result {
+export interface Exam {
   date: string;
   id: string;
   name: string;

@@ -1,0 +1,46 @@
+table {
+  width: 100%;
+}
+
+.mat-form-field {
+  font-size: 14px;
+  width: 100%;
+}
+
+.rm-table {
+  height: 100%;
+  width: 100%;
+  overflow: auto;
+}
+
+.view-action {
+  margin-right: 8px;
+}
+
+.delete-action {
+  margin-left: 8px;
+}
+
+.filter {
+  margin-top: 12px;
+  margin-bottom: 8px;
+
+}
+
+.result-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 80%;
+  margin: auto;
+  height: 88vh;
+
+  @media only screen and (min-width:768px) {
+    width: 50%;
+  }
+
+  @media only screen and (min-width:1024px) {
+    width: 400px;
+  }
+}
