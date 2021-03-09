@@ -2,6 +2,7 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { EventEmitter, Output } from '@angular/core';
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
+import { RouteConfigLoadEnd, Router } from '@angular/router';
 import { LoginService } from 'src/app/login/service/login.service';
 import { Notice } from 'src/app/models/notice.model';
 import { UploadService } from '../../services/upload.service';
@@ -24,7 +25,7 @@ export class UploadComponent implements OnInit, OnChanges {
 
 
 
-  displayedColumns: string[] = ['select', 'date', 'name', 'sub'];
+  displayedColumns: string[] = ['select', 'date', 'name'];
   dataSource = new MatTableDataSource<Notice>([]);
   result: any;
   notices: Notice[] = [];
@@ -34,7 +35,7 @@ export class UploadComponent implements OnInit, OnChanges {
 
 
 
-  constructor(private uploadService: UploadService, private loginService: LoginService) {}
+  constructor(private uploadService: UploadService, private loginService: LoginService, private route: Router) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes?.type?.currentValue) {
@@ -49,7 +50,10 @@ export class UploadComponent implements OnInit, OnChanges {
   ngOnInit(): void {
     this.userType = this.loginService.getUser().userType;
     if (this.userType !== 'Student'){
-      this.displayedColumns = [...this.displayedColumns, 'delete'];
+      this.displayedColumns = [...this.displayedColumns, 'delete', 'subTeacher'];
+    }
+    else if (this.type === 'assignments' && this.userType === 'Student'){
+      this.displayedColumns = [...this.displayedColumns, 'upload', 'subStudent'];
     }
     this.selection.changed.subscribe(row => {
       const selectedRow = row.added[0];
@@ -105,10 +109,8 @@ export class UploadComponent implements OnInit, OnChanges {
     this.uploadService.delete(this.type, element.name, filePath);
   }
 
-  onSub = (url: string) => {
-    if (url.length > 0) {
-      window.open(url);
-    }
+  onSub = (id: string) => {
+    this.route.navigateByUrl(`assignment/submission/${id}`);
   }
 
   getCounter(){
@@ -127,6 +129,14 @@ export class UploadComponent implements OnInit, OnChanges {
 
       return Number(count) + 1;
     }
+  }
+
+  uploadSubmission(event: any, element: any){
+    const file = event.target.files[0];
+    const stdId = this.loginService.getUser().userId;
+    const name = `${stdId}-${element.name}`;
+    const filePath = `/uploads/submissions/${name}`;
+    this.uploadService.uploadSubmission(file, name, this.getFormattedDate(new Date()), filePath, element.name, stdId, element);
   }
 
 

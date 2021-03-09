@@ -16,6 +16,7 @@ export class UploadService {
     return this.store.list<Notice>(`/uploads/${type}`).valueChanges();
   }
 
+
   uploadFile = (file: File, name: string, date: string, filePath: string, type: string | undefined) => {
     const notice: Notice = {
       name,
@@ -57,4 +58,36 @@ export class UploadService {
     });
   }
 
+  uploadSubmission(file: any, name: string, date: string, filePath: string, fileName: string, stdId: string, element: any) {
+
+    const notice: Notice = {
+      name,
+      id: name,
+      date,
+      url: '',
+      progress: '0'
+    };
+
+    this.store.object<any>(`/uploads/assignments/${fileName}`).update({...element, progress: '0'}).then(() => {
+      console.log('data saved!');
+    });
+
+    const storageRef = this.storage.ref(filePath);
+    const uploadTask = this.storage.upload(filePath, file);
+    uploadTask.snapshotChanges().pipe(
+      finalize(() => {
+        storageRef.getDownloadURL().subscribe((url => {
+          this.store.object<any>(`/uploads/submissions/${fileName}/${stdId}`).update({ ...notice, url, progress: '100' }).then(() => {
+            this.store.object<any>(`/uploads/assignments/${fileName}`).update({ ...element, progress: '100' }).then(() => {
+              console.log('data saved!');
+            });
+            this.snackBar.open('File uploaded!', 'Dismiss', {
+              duration: 5000,
+            });
+          });
+        }));
+      })
+    ).subscribe();
   }
+
+}

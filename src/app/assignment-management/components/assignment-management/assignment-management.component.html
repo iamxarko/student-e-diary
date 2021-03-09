@@ -1,4 +1,4 @@
- <div class="am-container">
+ <div class="am-container" *ngIf="userType !== 'Student'">
   <mat-form-field class="example-full-width">
     <mat-label>Subject</mat-label>
     <input type="text" aria-label="Subject" matInput [formControl]="subject" [matAutocomplete]="auto">

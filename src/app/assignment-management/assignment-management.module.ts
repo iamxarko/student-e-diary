@@ -6,10 +6,11 @@ import { AssignmentManagementComponent } from './components/assignment-managemen
 import { MaterialModule } from '../material.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '../shared/shared.module';
+import { SubmissionComponent } from './components/submission/submission.component';
 
 
 @NgModule({
-  declarations: [AssignmentManagementComponent],
+  declarations: [AssignmentManagementComponent, SubmissionComponent],
   imports: [
     CommonModule,
     AssignmentManagementRoutingModule,

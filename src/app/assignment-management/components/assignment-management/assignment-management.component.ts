@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
+import { LoginService } from 'src/app/login/service/login.service';
 
 @Component({
   selector: 'app-assignment-management',
@@ -13,7 +14,11 @@ export class AssignmentManagementComponent implements OnInit {
   subject = new FormControl('HMI', [Validators.required]);
   options: string[] = ['HMI', 'CCL', 'DC', 'EM', 'NLP'];
   filteredOptions: Observable<string[]> | undefined;
-  constructor() { }
+  userType: any;
+
+  constructor(private loginService: LoginService) {
+    this.userType = this.loginService.getUser().userType;
+  }
 
   ngOnInit(): void {
     this.filteredOptions = this.subject.valueChanges.pipe(
