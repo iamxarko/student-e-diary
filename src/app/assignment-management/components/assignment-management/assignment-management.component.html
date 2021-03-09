@@ -10,5 +10,5 @@
   </mat-form-field>
  </div>
  <div>
-  <app-upload [type]="'assignments'" [subject]="subject.value"></app-upload>
+  <app-upload [type]="'assignments'" [subject]="subject.value" (fireUpdate)="handleOnUpdate($event)"></app-upload>
   </div>

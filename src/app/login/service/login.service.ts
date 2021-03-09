@@ -17,6 +17,7 @@ export class LoginService {
   logIn = (userId: string, password: string) => {
     this.store.object<any>(`/users/${userId}`).valueChanges().subscribe(val => {
       if (val && val.password === password) {
+        delete val.password;
         localStorage.setItem('user', JSON.stringify(val));
         this.route.navigateByUrl('/');
         this.fireIsLoggedIn.emit(this.getUser());

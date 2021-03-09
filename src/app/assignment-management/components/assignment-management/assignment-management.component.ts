@@ -27,4 +27,13 @@ export class AssignmentManagementComponent implements OnInit {
     return this.options.filter(option => option.toLowerCase().indexOf(filterValue) === 0);
   }
 
+  handleOnUpdate(event: any){
+    this.subject.setValue(event);
+    this.subject.disable();
+    if (!event){
+      this.subject.setValue('HMI');
+      this.subject.enable();
+    }
+  }
+
 }

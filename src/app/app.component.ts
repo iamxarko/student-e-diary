@@ -31,8 +31,9 @@ export class AppComponent implements OnInit {
         this.title = data.title;
       });
   }
+
   ngOnInit(): void {
-    this.userId = this.loginService.getUser().userId;
+    this.userId = this.loginService.getUser()?.userId;
   }
 
   isLoggedIn = () => {

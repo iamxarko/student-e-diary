@@ -1,3 +1,5 @@
+import { SelectionModel } from '@angular/cdk/collections';
+import { EventEmitter, Output } from '@angular/core';
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { LoginService } from 'src/app/login/service/login.service';
@@ -17,11 +19,18 @@ export class UploadComponent implements OnInit, OnChanges {
   @Input()
   subject: string | undefined;
 
-  displayedColumns: string[] = ['date', 'name', 'view', 'sub'];
+  @Output()
+  fireUpdate: EventEmitter<any> = new EventEmitter<any>();
+
+
+
+  displayedColumns: string[] = ['select', 'date', 'name', 'sub'];
   dataSource = new MatTableDataSource<Notice>([]);
   result: any;
   notices: Notice[] = [];
   userType = '';
+  selection = new SelectionModel<Notice>(false, []);
+  selectedFileName: any;
 
 
 
@@ -42,15 +51,29 @@ export class UploadComponent implements OnInit, OnChanges {
     if (this.userType !== 'Student'){
       this.displayedColumns = [...this.displayedColumns, 'delete'];
     }
+    this.selection.changed.subscribe(row => {
+      const selectedRow = row.added[0];
+      if (selectedRow){
+        this.selectedFileName = selectedRow.id;
+        if (this.type === 'assignments'){
+          const subject = this.selectedFileName.substr(0, this.selectedFileName.indexOf('-'));
+          this.fireUpdate.emit(subject);
+        }
+      }else {
+        this.selectedFileName = undefined;
+        this.fireUpdate.emit(undefined);
+      }
+    });
   }
 
   uploadFile(event: any) {
     const file = event.target.files[0];
     let name = `${this.type?.substr(0, this.type.length - 1)}-${this.getCounter()}`;
-   // const name = `${this.type?.substr(0, this.type.length - 1)}-${Date.now()}`;
+    if (this.selectedFileName){
+        name = this.selectedFileName;
+    }
     let filePath = `/uploads/${this.type}/${name}`;
-    console.log(this.subject);
-    if (this.subject){
+    if (this.subject && !this.selectedFileName){
       filePath = `/uploads/${this.type}/${this.subject}-${name}`;
       name = `${this.subject}-${name}`;
     }
