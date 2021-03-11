@@ -49,7 +49,7 @@ export class UploadComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     this.userType = this.loginService.getUser().userType;
-    if (this.userType !== 'Student'){
+    if (this.type === 'assignments'){
       this.displayedColumns = [...this.displayedColumns, 'delete', 'subTeacher'];
     }
     else if (this.type === 'assignments' && this.userType === 'Student'){

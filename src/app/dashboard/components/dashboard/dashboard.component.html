@@ -2,8 +2,8 @@
   <mat-grid-list cols="{{columns}}" rowHeight="100px">
     <mat-grid-tile *ngFor="let menu of menus" [colspan]="1" [rowspan]="1">
       <div class="menu" routerLink="{{getUrl(menu.url)}}">
-          <mat-icon>{{menu.icon}}</mat-icon>
-          {{menu.title}}
+        <mat-icon>{{menu.icon}}</mat-icon>
+        {{menu.title}}
       </div>
     </mat-grid-tile>
   </mat-grid-list>
