@@ -38,4 +38,8 @@ export class LoginComponent implements OnInit {
     this.loginService.logIn(this.userId.value, this.password.value);
   }
 
+  isValid = () => {
+    return this.userId.invalid || this.password.invalid;
+  }
+
 }

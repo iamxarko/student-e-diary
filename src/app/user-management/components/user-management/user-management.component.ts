@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
-import { Observable } from 'rxjs';
-import { map, startWith } from 'rxjs/operators';
 import { User } from 'src/app/models/user.model';
 import { UserManagementService } from '../../services/user-management.service';
+import { SelectionModel } from '@angular/cdk/collections';
 
 
 @Component({
@@ -20,12 +19,15 @@ export class UserManagementComponent implements OnInit {
   password = new FormControl('', Validators.required);
   userType = new FormControl('Admin', [Validators.required]);
   options: string[] = ['Admin', 'Student', 'Teacher'];
+  selection = new SelectionModel<User>(false, []);
+  selectedFileName: any;
+  isRowSelected;
 
 
-  displayedColumns: string[] = ['userId', 'name', 'password'];
+  displayedColumns: string[] = ['select','userId', 'name', 'password'];
   dataSource: any;
-
   constructor(private umService: UserManagementService) {
+    this.isRowSelected = true;
     this.umService.getUsers().subscribe(userList => {
       console.log(userList);
       this.users = userList;
@@ -35,16 +37,25 @@ export class UserManagementComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.userId.valueChanges.subscribe(value => {
-      const user = this.users.find(u => u.userId === value);
-      if (user) {
-        this.name.setValue(user.name);
-        this.password.setValue(user.password);
-        this.userType.setValue(user.userType);
-      } else{
+    this.selection.changed.subscribe(row => {
+      this.isRowSelected = false;
+      console.log(this.isRowSelected);
+      const selectedRow = row.added[0];
+      if (selectedRow){
+        const user = this.users.find(u => u.userId === selectedRow.userId);
+        if (user){
+          this.userId.setValue(user.userId);
+          this.name.setValue(user.name);
+          this.password.setValue(user.password);
+          this.userType.setValue(user.userType);
+        }
+      }
+      else {
+        this.isRowSelected = true;
+        this.userId.setValue('');
         this.name.setValue('');
         this.password.setValue('');
-        this.userType.setValue('');
+        this.userType.setValue('');      
       }
     });
   }
@@ -72,6 +83,29 @@ export class UserManagementComponent implements OnInit {
 
   delete = () => {
     this.umService.delete(this.userId.value);
-
   }
+  getUserIdErrorMessage() {
+    if (this.userId.hasError('required')) {
+      return 'You must enter a user id';
+    }
+    return this.userId.hasError('userId') ? 'Not a valid id' : '';
+  }
+  getPasswordErrorMessage() {
+    if (this.password.hasError('required')) {
+      return 'You must enter password';
+    }
+    return this.password.hasError('userId') ? 'Not a valid password' : '';
+  }
+
+  getNameErrorMessage(){
+    if (this.name.hasError('required')){
+      return 'You must enter name';
+    }
+    return this.password.hasError('name') ? 'Not a valid name' : '';
+  }
+
+  isValid = () => {
+    return this.userId.invalid || this.password.invalid || this.name.invalid;
+  }
+
 }

@@ -1,3 +1,4 @@
+import { CustomDateAdapter } from './../../services/date-adapter.service';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
@@ -6,18 +7,25 @@ import { Attendance } from 'src/app/models/attendance.model';
 import { AttendanceManagementService } from '../../services/attendance-management.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { LoginService } from 'src/app/login/service/login.service';
+import * as moment from 'moment';
+import {MAT_MOMENT_DATE_FORMATS, MomentDateAdapter} from '@angular/material-moment-adapter';
+import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
 
 @Component({
   selector: 'app-attendance-management',
   templateUrl: './attendance-management.component.html',
-  styleUrls: ['./attendance-management.component.scss']
+  styleUrls: ['./attendance-management.component.scss'],
+  providers: [
+    {provide: DateAdapter, useClass: CustomDateAdapter, deps: [MAT_DATE_LOCALE]},
+    {provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS},
+  ]
 })
 export class AttendanceManagementComponent implements OnInit {
 
   attendances: Attendance[] = [];
   subject = new FormControl('HMI', [Validators.required]);
   student = new FormControl('', [Validators.required]);
-  date = new FormControl(null, [Validators.required]);
+  date = new FormControl(moment(new Date()), [Validators.required]);
   options: string[] = ['HMI', 'CCL', 'DC', 'EM', 'NLP'];
   filteredOptions: Observable<string[]> | undefined;
   studentOptions: any[] = [];
@@ -50,7 +58,6 @@ export class AttendanceManagementComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.date.setValue(this.getFormattedDate(new Date()));
     this.filteredOptions = this.subject.valueChanges.pipe(
       startWith(''),
       map(value => this.filterOptions(value))
@@ -88,7 +95,7 @@ export class AttendanceManagementComponent implements OnInit {
     const date = new Date(strDate);
     const sub = this.result[this.subject.value];
     const dateResult = this.getFormattedDate(date);
-    this.date.setValue(dateResult);
+  //  this.date.setValue(dateResult);
     if (sub) {
       this.attendances = sub[dateResult] || [];
       if (this.user.userType === 'Student') {
@@ -109,17 +116,21 @@ export class AttendanceManagementComponent implements OnInit {
   }
 
   onPresent = () => {
-    this.attendanceManagementService.markPresent(this.subject.value, this.date.value, this.student.value, this.attendances);
+  //  this.attendanceManagementService.markPresent(this.subject.value, this.date.value, this.student.value, this.attendances);
   }
 
   onAbsent = () => {
-    this.attendanceManagementService.markAbsent(this.subject.value, this.date.value, this.student.value, this.attendances);
+  //  this.attendanceManagementService.markAbsent(this.subject.value, this.date.value, this.student.value, this.attendances);
   }
 
   // Table section
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+
+  getCurrentDate = () => {
+    this.getFormattedDate(new Date());
   }
   // -----
 }
