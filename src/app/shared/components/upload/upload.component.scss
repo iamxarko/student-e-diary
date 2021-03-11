@@ -10,7 +10,7 @@ table {
 .um-table {
   height: 100%;
   max-height: 83%;
-  width: 100%;
+  width: 110%;
   overflow: auto;
 }
 
@@ -46,6 +46,7 @@ table {
   width: 90%;
   margin: auto;
   height: 88vh;
+  margin-top: 20px;
 
   @media only screen and (min-width:768px) {
     width: 50%;
