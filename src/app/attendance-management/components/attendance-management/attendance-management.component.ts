@@ -58,6 +58,7 @@ export class AttendanceManagementComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.date.disable();
     this.filteredOptions = this.subject.valueChanges.pipe(
       startWith(''),
       map(value => this.filterOptions(value))
@@ -95,7 +96,6 @@ export class AttendanceManagementComponent implements OnInit {
     const date = new Date(strDate);
     const sub = this.result[this.subject.value];
     const dateResult = this.getFormattedDate(date);
-  //  this.date.setValue(dateResult);
     if (sub) {
       this.attendances = sub[dateResult] || [];
       if (this.user.userType === 'Student') {
@@ -116,11 +116,13 @@ export class AttendanceManagementComponent implements OnInit {
   }
 
   onPresent = () => {
-  //  this.attendanceManagementService.markPresent(this.subject.value, this.date.value, this.student.value, this.attendances);
+    const dateValue = this.getFormattedDate(moment(this.date.value).toDate())
+    this.attendanceManagementService.markPresent(this.subject.value, dateValue, this.student.value, this.attendances);
   }
 
   onAbsent = () => {
-  //  this.attendanceManagementService.markAbsent(this.subject.value, this.date.value, this.student.value, this.attendances);
+    const dateValue = this.getFormattedDate(moment(this.date.value).toDate())
+    this.attendanceManagementService.markAbsent(this.subject.value, dateValue, this.student.value, this.attendances);
   }
 
   // Table section
