@@ -3,7 +3,6 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 90%;
   margin: auto;
 
 
@@ -12,7 +11,7 @@
   }
 
   @media only screen and (min-width:1024px) {
-    width: 400px;
+    width: 90vw;
   }
 }
 
@@ -31,4 +30,14 @@
  table {
    width: 100%;
    padding-right: 0%;
+ }
+.mat-form-field {
+  font-size: 14px;
+  width: 100%;
+}
+ .filter {
+   width: 90vw;
+   margin-top: 12px;
+   margin-bottom: 8px;
+
  }

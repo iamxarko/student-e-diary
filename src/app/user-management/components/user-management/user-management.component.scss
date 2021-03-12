@@ -1,6 +1,6 @@
 .example-form {
   min-width: 150px;
-  max-width: 500px;
+  //max-width: 500px;
   width: 100%;
 }
 .um-container{
@@ -16,7 +16,7 @@
   }
 
   @media only screen and (min-width:1024px) {
-    width: 400px;
+    width: 90vw;
   }
 }
 
