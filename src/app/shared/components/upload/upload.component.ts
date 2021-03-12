@@ -25,7 +25,7 @@ export class UploadComponent implements OnInit, OnChanges {
 
 
 
-  displayedColumns: string[] = ['select', 'date', 'name'];
+  displayedColumns: string[] = [];
   dataSource = new MatTableDataSource<Notice>([]);
   result: any;
   notices: Notice[] = [];
@@ -35,13 +35,13 @@ export class UploadComponent implements OnInit, OnChanges {
 
 
 
-  constructor(private uploadService: UploadService, private loginService: LoginService, private route: Router) {}
+  constructor(private uploadService: UploadService, private loginService: LoginService, private route: Router) { }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes?.type?.currentValue) {
       this.uploadService.getNotice(changes.type.currentValue).subscribe(result => {
         this.notices = result.reverse();
-        if(this.notices.length === 0){
+        if (this.notices.length === 0) {
           this.selectedFileName = undefined;
         }
         console.log(this.notices);
@@ -52,35 +52,46 @@ export class UploadComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     this.userType = this.loginService.getUser().userType;
-    if (this.type === 'assignments' && this.userType !== 'Student'){
-      this.displayedColumns = [...this.displayedColumns, 'delete', 'subTeacher'];
-    }
-    else if (this.type === 'assignments' && this.userType === 'Student'){
-      this.displayedColumns = [...this.displayedColumns, 'upload', 'subStudent'];
-    }
+    this.displayedColumns = this.getColumns(this.type, this.userType);
     this.selection.changed.subscribe(row => {
       const selectedRow = row.added[0];
-      if (selectedRow){
+      if (selectedRow) {
         this.selectedFileName = selectedRow.id;
-        if (this.type === 'assignments'){
+        if (this.type === 'assignments') {
           const subject = this.selectedFileName.substr(0, this.selectedFileName.indexOf('-'));
           this.fireUpdate.emit(subject);
         }
-      }else {
+      } else {
         this.selectedFileName = undefined;
         this.fireUpdate.emit(undefined);
       }
     });
   }
+  getColumns(type: string | undefined, userType: string): string[] {
+    let columns: string[] = ['select', 'date', 'name', 'delete'];
+    if (type === 'assignments' && userType !== 'Student') {
+     // this.displayedColumns = [...this.displayedColumns, 'delete', 'subTeacher'];
+      columns = ['select', 'date', 'name', 'delete', 'subTeacher'];
+    }
+    if (this.type === 'assignments' && this.userType === 'Student') {
+     // this.displayedColumns = [...this.displayedColumns, 'upload', 'subStudent'];
+      columns = ['select', 'date', 'name', 'upload', 'subStudent'];
+    }
+    if (type !== 'assignments' && userType === 'Student') {
+      // this.displayedColumns = [...this.displayedColumns, 'delete', 'subTeacher'];
+      columns = ['date', 'name'];
+    }
+    return columns;
+  }
 
   uploadFile(event: any) {
     const file = event.target.files[0];
     let name = `${this.type?.substr(0, this.type.length - 1)}-${this.getCounter()}`;
-    if (this.selectedFileName){
-        name = this.selectedFileName;
+    if (this.selectedFileName) {
+      name = this.selectedFileName;
     }
     let filePath = `/uploads/${this.type}/${name}`;
-    if (this.subject && !this.selectedFileName){
+    if (this.subject && !this.selectedFileName) {
       filePath = `/uploads/${this.type}/${this.subject}-${name}`;
       name = `${this.subject}-${name}`;
     }
@@ -116,14 +127,13 @@ export class UploadComponent implements OnInit, OnChanges {
     this.route.navigateByUrl(`assignment/submission/${id}`);
   }
 
-  getCounter(){
+  getCounter() {
     const tempSubject = this.subject ? this.subject : '';
     const filteredNotices = this.notices.filter(notice => notice.name.startsWith(tempSubject));
-    if (filteredNotices.length === 0)
-    {
+    if (filteredNotices.length === 0) {
       return '1';
     }
-    else{
+    else {
       const name = filteredNotices[0]?.name;
       console.log(name);
 
@@ -134,7 +144,7 @@ export class UploadComponent implements OnInit, OnChanges {
     }
   }
 
-  uploadSubmission(event: any, element: any){
+  uploadSubmission(event: any, element: any) {
     const file = event.target.files[0];
     const stdId = this.loginService.getUser().userId;
     const name = `${stdId}-${element.name}`;

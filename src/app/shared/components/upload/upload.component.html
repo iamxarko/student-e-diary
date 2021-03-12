@@ -9,55 +9,49 @@
   <div class="um-table mat-elevation-z8">
     <table mat-table [dataSource]="dataSource">
 
-       <!-- Checkbox Column -->
-  <ng-container matColumnDef="select">
-    <th mat-header-cell *matHeaderCellDef> </th>
-    <td mat-cell *matCellDef="let row">
-      <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null"
-        [checked]="selection.isSelected(row)"
-        *ngIf="userType !== 'Student'">
-      </mat-checkbox>
-    </td>
-  </ng-container>
+      <!-- Checkbox Column -->
+      <ng-container matColumnDef="select">
+        <th mat-header-cell *matHeaderCellDef>Select</th>
+        <td mat-cell *matCellDef="let row">
+          <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null"
+            [checked]="selection.isSelected(row)" *ngIf="userType !== 'Student'">
+          </mat-checkbox>
+        </td>
+      </ng-container>
       <!-- Date Column -->
       <ng-container matColumnDef="date">
         <th mat-header-cell *matHeaderCellDef> Date </th>
         <td mat-cell *matCellDef="let element">
-            <mat-spinner [diameter]="15" *ngIf="element.progress === '0'"></mat-spinner>
-            <span *ngIf="element.progress === '100'">{{element.date}}</span>
+          <mat-spinner [diameter]="15" *ngIf="element.progress === '0'"></mat-spinner>
+          <span *ngIf="element.progress === '100'">{{element.date}}</span>
         </td>
       </ng-container>
 
       <!-- Name Column -->
       <ng-container matColumnDef="name">
         <th mat-header-cell *matHeaderCellDef> File Name </th>
-        <td mat-cell *matCellDef="let element"> <span (click)="onView(element.url)" href="" class="view">{{element.name}}</span> </td>
+        <td mat-cell *matCellDef="let element"> <span (click)="onView(element.url)" href=""
+            class="view">{{element.name}}</span> </td>
       </ng-container>
 
-      <!-- Attendance Column -->
-      <!-- <ng-container matColumnDef="view">
-        <th mat-header-cell *matHeaderCellDef>V</th>
-        <td mat-cell *matCellDef="let element">
-          <span>
-            <mat-icon (click)="onView(element.url)" class="view-action">visibility</mat-icon>
-          </span>
-        </td>
-      </ng-container> -->
+
       <ng-container matColumnDef="delete">
         <th mat-header-cell *matHeaderCellDef>DELETE</th>
         <td mat-cell *matCellDef="let element">
-          <span>
-            <mat-icon (click)="onDelete(element)" class="delete-action">delete</mat-icon>
-          </span>
+          <button (click)="onDelete(element)" mat-icon-button>
+            <mat-icon>delete</mat-icon>
+          </button>
         </td>
       </ng-container>
 
       <ng-container matColumnDef="upload">
-        <th mat-header-cell *matHeaderCellDef justify="end">ACTIONS</th>
+        <th mat-header-cell *matHeaderCellDef justify="end">U</th>
         <td mat-cell *matCellDef="let element">
           <span>
             <input type="file" #file style="display:none" (change)="uploadSubmission($event,element)">
-            <mat-icon (click)="file.click()" class="sub-action">upload</mat-icon>
+            <button (click)="file.click()" mat-icon-button>
+              <mat-icon>upload</mat-icon>
+            </button>
           </span>
         </td>
       </ng-container>
@@ -66,17 +60,17 @@
       <ng-container matColumnDef="subTeacher">
         <th mat-header-cell *matHeaderCellDef>VIEW</th>
         <td mat-cell *matCellDef="let element">
-          <span >
-            <mat-icon (click)="onSub(element.name)" class="sub-action">upload</mat-icon>
-          </span>
+          <button (click)="onSub(element.name)" mat-icon-button>
+            <mat-icon>upload</mat-icon>
+          </button>
         </td>
       </ng-container>
       <ng-container matColumnDef="subStudent">
         <th mat-header-cell *matHeaderCellDef></th>
         <td mat-cell *matCellDef="let element">
-          <span>
-            <mat-icon (click)="onSub(element.name)" class="sub-action">visibility</mat-icon>
-          </span>
+          <button (click)="onSub(element.name)" mat-icon-button>
+            <mat-icon>visibility</mat-icon>
+          </button>
         </td>
       </ng-container>
 
@@ -92,4 +86,3 @@
     </table>
   </div>
 </div>
-

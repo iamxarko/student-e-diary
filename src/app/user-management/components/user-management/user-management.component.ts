@@ -24,13 +24,13 @@ export class UserManagementComponent implements OnInit {
   isRowSelected;
 
 
-  displayedColumns: string[] = ['select','userId', 'name', 'password'];
+  displayedColumns: string[] = ['select', 'userId', 'name', 'password'];
   dataSource: any;
   constructor(private umService: UserManagementService) {
     this.isRowSelected = true;
     this.umService.getUsers().subscribe(userList => {
       console.log(userList);
-      this.users = userList;
+      this.users = userList.reverse();
       this.dataSource = new MatTableDataSource(this.users);
 
     });
@@ -55,7 +55,7 @@ export class UserManagementComponent implements OnInit {
         this.userId.setValue('');
         this.name.setValue('');
         this.password.setValue('');
-        this.userType.setValue('');      
+        this.userType.setValue('');
       }
     });
   }
