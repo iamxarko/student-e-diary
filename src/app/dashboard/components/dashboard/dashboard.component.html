@@ -1,10 +1,11 @@
 <div class="dashboard-container">
-  <mat-grid-list cols="{{columns}}" rowHeight="100px">
+  <mat-grid-list cols="{{columns}}" rowHeight="100px" gutterSize="10px">
     <mat-grid-tile *ngFor="let menu of menus" [colspan]="1" [rowspan]="1">
       <div class="menu" routerLink="{{getUrl(menu.url)}}">
-        <mat-icon>{{menu.icon}}</mat-icon>
-        {{menu.title}}
-      </div>
+       <button  class="menu-button" color="primary" mat-raised-button>
+        <mat-icon>{{menu.icon}}</mat-icon><br>
+       <span> {{menu.title}} </span>
+      </button></div>
     </mat-grid-tile>
   </mat-grid-list>
 </div>

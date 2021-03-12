@@ -1,6 +1,6 @@
 <div class="login-container">
+  <img src="assets/logo.png" alt="logo" height="200px" width="200px">
   <h1><b>LOGIN</b></h1>
-  <section class="glass">
   <mat-form-field appearance="fill" class="login-field">
     <mat-label>Enter your userId</mat-label>
     <input matInput [formControl]="userId" required>
@@ -15,7 +15,6 @@
     </button>
   </mat-form-field>
   <button [disabled]="isValid()" mat-raised-button color="primary" class="login-button" (click)="login()">Login</button>
-  </section>
 </div>
 
 

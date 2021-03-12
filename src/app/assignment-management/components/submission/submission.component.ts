@@ -23,7 +23,7 @@ export class SubmissionComponent implements OnInit {
       console.log(params.id);
       if (this.loginService.getUser().userType === 'Student'){
         this.assignmentService.getAssignmentsListForStudent(params.id, this.loginService.getUser().userId).subscribe(result => {
-          this.result = [result];
+          this.result = result ? [result] : [];
           this.dataSource = new MatTableDataSource(this.result);
         });
       }else{

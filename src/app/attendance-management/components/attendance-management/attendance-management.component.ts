@@ -45,7 +45,8 @@ export class AttendanceManagementComponent implements OnInit {
     this.user = this.loginService.getUser();
     this.attendanceManagementService.getAttendance().subscribe(result => {
       this.result = result;
-      this.attendances = this.result[this.subject.value][this.date.value];
+      const dateValue = this.getFormattedDate(moment(this.date.value).toDate());
+      this.attendances = this.result[this.subject.value][dateValue] || [];
       if (this.user.userType === 'Student') {
         this.attendances = this.attendances.filter(a => a.studentId === this.user.userId);
       }
@@ -71,7 +72,8 @@ export class AttendanceManagementComponent implements OnInit {
     this.subject.valueChanges.subscribe(value => {
       const sub = this.result[value];
       if (sub) {
-        this.attendances = sub[this.date.value] || [];
+        const dateValue = this.getFormattedDate(moment(this.date.value).toDate());
+        this.attendances = sub[dateValue] || [];
         if (this.user.userType === 'Student') {
           this.attendances = this.attendances.filter(a => a.studentId === this.user.userId);
         }
@@ -116,12 +118,12 @@ export class AttendanceManagementComponent implements OnInit {
   }
 
   onPresent = () => {
-    const dateValue = this.getFormattedDate(moment(this.date.value).toDate())
+    const dateValue = this.getFormattedDate(moment(this.date.value).toDate());
     this.attendanceManagementService.markPresent(this.subject.value, dateValue, this.student.value, this.attendances);
   }
 
   onAbsent = () => {
-    const dateValue = this.getFormattedDate(moment(this.date.value).toDate())
+    const dateValue = this.getFormattedDate(moment(this.date.value).toDate());
     this.attendanceManagementService.markAbsent(this.subject.value, dateValue, this.student.value, this.attendances);
   }
 

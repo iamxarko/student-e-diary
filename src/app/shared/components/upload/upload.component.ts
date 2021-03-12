@@ -41,6 +41,9 @@ export class UploadComponent implements OnInit, OnChanges {
     if (changes?.type?.currentValue) {
       this.uploadService.getNotice(changes.type.currentValue).subscribe(result => {
         this.notices = result.reverse();
+        if(this.notices.length === 0){
+          this.selectedFileName = undefined;
+        }
         console.log(this.notices);
         this.dataSource = new MatTableDataSource(this.notices);
       });
@@ -49,7 +52,7 @@ export class UploadComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     this.userType = this.loginService.getUser().userType;
-    if (this.type === 'assignments'){
+    if (this.type === 'assignments' && this.userType !== 'Student'){
       this.displayedColumns = [...this.displayedColumns, 'delete', 'subTeacher'];
     }
     else if (this.type === 'assignments' && this.userType === 'Student'){
