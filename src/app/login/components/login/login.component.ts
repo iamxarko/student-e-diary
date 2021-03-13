@@ -34,12 +34,17 @@ export class LoginComponent implements OnInit {
   }
 
   login = () => {
-    console.log('I am here');
     this.loginService.logIn(this.userId.value, this.password.value);
   }
 
   isValid = () => {
     return this.userId.invalid || this.password.invalid;
+  }
+
+  handleKeyUp = (event: any) => {
+    if (event.keyCode === 13 && !this.isValid()) {
+      this.login();
+    }
   }
 
 }

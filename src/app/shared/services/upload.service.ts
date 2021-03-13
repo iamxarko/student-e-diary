@@ -3,6 +3,7 @@ import { AngularFireDatabase } from '@angular/fire/database';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { finalize } from 'rxjs/operators';
+import { SpinnerService } from 'src/app/login/service/spinner.service';
 import { Notice } from 'src/app/models/notice.model';
 
 @Injectable({
@@ -10,7 +11,8 @@ import { Notice } from 'src/app/models/notice.model';
 })
 export class UploadService {
 
-  constructor(private store: AngularFireDatabase, private storage: AngularFireStorage, private snackBar: MatSnackBar) { }
+  constructor(private store: AngularFireDatabase, private storage: AngularFireStorage, private snackBar: MatSnackBar,
+              private spinnerService: SpinnerService) { }
 
   getNotice = (type: string | undefined) => {
     return this.store.list<Notice>(`/uploads/${type}`, ref => ref.orderByChild('counter')).valueChanges();
@@ -47,15 +49,19 @@ export class UploadService {
   }
 
   delete(type: string | undefined, name: string, filePath: string) {
+    this.spinnerService.showSpinner(true);
     this.store.object<any>(`/uploads/${type}/${name}`).remove().then(() => {
       this.snackBar.open('Data Deleted!', 'Dismiss', {
         duration: 5000,
       });
       this.storage.ref(`${filePath}/${name}`).delete();
+      this.spinnerService.showSpinner(false);
     }, () => {
       console.log('Error occurred!');
+      this.spinnerService.showSpinner(false);
     }).catch(() => {
       console.log('Error occurred!');
+      this.spinnerService.showSpinner(true);
     });
   }
 

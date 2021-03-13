@@ -4,6 +4,7 @@ import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/cor
 import { MatTableDataSource } from '@angular/material/table';
 import { RouteConfigLoadEnd, Router } from '@angular/router';
 import { LoginService } from 'src/app/login/service/login.service';
+import { SpinnerService } from 'src/app/login/service/spinner.service';
 import { Notice } from 'src/app/models/notice.model';
 import { UploadService } from '../../services/upload.service';
 
@@ -35,17 +36,19 @@ export class UploadComponent implements OnInit, OnChanges {
 
 
 
-  constructor(private uploadService: UploadService, private loginService: LoginService, private route: Router) { }
+  constructor(private uploadService: UploadService, private loginService: LoginService, private route: Router,
+              private spinnerService: SpinnerService) { }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes?.type?.currentValue) {
+      this.spinnerService.showSpinner(true);
       this.uploadService.getNotice(changes.type.currentValue).subscribe(result => {
         this.notices = result.reverse();
         if (this.notices.length === 0) {
           this.selectedFileName = undefined;
         }
-        console.log(this.notices);
         this.dataSource = new MatTableDataSource(this.notices);
+        this.spinnerService.showSpinner(false);
       });
     }
   }

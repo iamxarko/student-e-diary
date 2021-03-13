@@ -24,5 +24,12 @@
 <div *ngIf="isLoggedIn()" class="menu-title"><span>{{title}}</span>
   <mat-icon>chevron_right</mat-icon>
 </div>
+<div class="loading-overlay" *ngIf="show">
+  <div class="loading-spinner">
+    <div class="lds-eclipse">
+      <div></div>
+    </div>
+  </div>
+</div>
 <router-outlet></router-outlet>
 </div>

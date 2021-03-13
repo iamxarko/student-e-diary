@@ -4,6 +4,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { User } from 'src/app/models/user.model';
 import { UserManagementService } from '../../services/user-management.service';
 import { SelectionModel } from '@angular/cdk/collections';
+import { SpinnerService } from 'src/app/login/service/spinner.service';
 
 
 @Component({
@@ -26,13 +27,14 @@ export class UserManagementComponent implements OnInit {
 
   displayedColumns: string[] = ['select', 'userId', 'name', 'password'];
   dataSource: any;
-  constructor(private umService: UserManagementService) {
+  constructor(private umService: UserManagementService, private spinnerService: SpinnerService) {
     this.isRowSelected = true;
+    this.spinnerService.showSpinner(true);
     this.umService.getUsers().subscribe(userList => {
       console.log(userList);
       this.users = userList.reverse();
       this.dataSource = new MatTableDataSource(this.users);
-
+      this.spinnerService.showSpinner(false);
     });
   }
 

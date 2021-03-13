@@ -55,5 +55,11 @@ table {
   }
 }
 
-.mat-column-upload{}
-.mat-column-view{}
+.mat-column-upload{
+  justify-content: center;
+  text-align: center;
+}
+.mat-column-subTeacher{
+  justify-content: center;
+  text-align: center;
+}

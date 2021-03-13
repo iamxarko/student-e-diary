@@ -10,6 +10,7 @@ import { LoginService } from 'src/app/login/service/login.service';
 import * as moment from 'moment';
 import {MAT_MOMENT_DATE_FORMATS, MomentDateAdapter} from '@angular/material-moment-adapter';
 import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
+import { SpinnerService } from 'src/app/login/service/spinner.service';
 
 @Component({
   selector: 'app-attendance-management',
@@ -41,8 +42,10 @@ export class AttendanceManagementComponent implements OnInit {
   // =======
 
 
-  constructor(private attendanceManagementService: AttendanceManagementService, private loginService: LoginService) {
+  constructor(private attendanceManagementService: AttendanceManagementService, private loginService: LoginService,
+              private spinnerService: SpinnerService) {
     this.user = this.loginService.getUser();
+    this.spinnerService.showSpinner(true);
     this.attendanceManagementService.getAttendance().subscribe(result => {
       this.result = result;
       const dateValue = this.getFormattedDate(moment(this.date.value).toDate());
@@ -51,6 +54,7 @@ export class AttendanceManagementComponent implements OnInit {
         this.attendances = this.attendances.filter(a => a.studentId === this.user.userId);
       }
       this.dataSource = new MatTableDataSource(this.attendances);
+      this.spinnerService.showSpinner(false);
     });
 
     this.attendanceManagementService.getStudents().subscribe(students => {

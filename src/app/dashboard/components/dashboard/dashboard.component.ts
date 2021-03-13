@@ -3,6 +3,7 @@ import { map } from 'rxjs/operators';
 import { Breakpoints, BreakpointObserver } from '@angular/cdk/layout';
 import { LoginService } from 'src/app/login/service/login.service';
 import { Menu } from 'src/app/models/menu.model';
+import { SpinnerService } from 'src/app/login/service/spinner.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -16,7 +17,9 @@ export class DashboardComponent {
 
   menus: Menu[] = [];
 
-  constructor(private breakpointObserver: BreakpointObserver, private loginService: LoginService) {
+  constructor(private breakpointObserver: BreakpointObserver, private loginService: LoginService,
+              private spinnerService: SpinnerService) {
+    this.spinnerService.showSpinner(true);
     this.breakpointObserver.observe([Breakpoints.Handset]).subscribe(result => {
       if (result.matches) {
         this.columns = 2;
@@ -28,9 +31,8 @@ export class DashboardComponent {
     this.loginService.getMenus(user.userType).subscribe(menus => {
       if (menus) {
         this.menus = menus;
-        console.log(this.menus);
-
       }
+      this.spinnerService.showSpinner(false);
     });
   }
 

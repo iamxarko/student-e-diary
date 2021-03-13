@@ -11,6 +11,70 @@
   align-items: center;
 }
 
-.main-container {
+loading-overlay {
+  width: 100%;
+  height: 100%;
+  bottom: 0;
+  left: 0;
+  background-color: #000;
+  opacity: 0.4;
+  z-index: 10005;
+  position: absolute;
+}
 
+.for-transition {
+  display: none;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.7);
+}
+
+@keyframes lds-eclipse {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  50% {
+    transform: rotate(180deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@-webkit-keyframes lds-eclipse {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  50% {
+    transform: rotate(180deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.lds-eclipse div {
+  animation: lds-eclipse 0.5s linear infinite;
+  width: 40px;
+  height: 40px;
+  top: 80px;
+  left: 80px;
+  border-radius: 50%;
+  box-shadow: 0 6px 0 0 #ca3983;
+  transform-origin: 20px 22px;
+}
+
+.lds-eclipse {
+  position: relative;
+  height: 200px !important;
+}
+
+.loading-spinner {
+  position: absolute;
+  left: 50%;
+  top: 33%;
+  transform: translate(-50%, 50%);
 }
