@@ -1,4 +1,9 @@
 <div class="notice-container">
+  <span class="back-button">
+    <button (click)="goBack()" mat-raised-button color="primary">
+      <mat-icon>chevron_left</mat-icon>
+    </button>
+  </span>
   <div class="filter">
     <mat-form-field>
       <mat-label>Filter</mat-label>
@@ -21,12 +26,12 @@
       <!-- Name Column -->
       <ng-container matColumnDef="name">
         <th mat-header-cell *matHeaderCellDef>File Name </th>
-        <td mat-cell *matCellDef="let element"> <span (click)="onView(element.url)"
-            class="view">{{element.name}}</span> </td>
+        <td mat-cell *matCellDef="let element"> <span (click)="onView(element.url)" class="view">{{element.name}}</span>
+        </td>
       </ng-container>
 
 
-     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
       <!-- Row shown when there is no matching data. -->

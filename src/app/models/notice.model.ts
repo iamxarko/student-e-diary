@@ -4,4 +4,5 @@ export interface Notice {
   name: string;
   progress: string;
   url: string;
+  counter?: number;
 }

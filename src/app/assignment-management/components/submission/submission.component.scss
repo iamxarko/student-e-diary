@@ -4,6 +4,7 @@
   justify-content: center;
   align-items: center;
   margin: auto;
+  padding: 14px 16px 0 16px;
 
 
   @media only screen and (min-width:768px) {
@@ -20,6 +21,10 @@
   max-height: 83%;
   width: 100%;
   overflow: auto;
+}
+.back-button {
+width: 100%;
+
 }
 
 .view {

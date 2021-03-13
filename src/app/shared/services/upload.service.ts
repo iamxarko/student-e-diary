@@ -13,17 +13,18 @@ export class UploadService {
   constructor(private store: AngularFireDatabase, private storage: AngularFireStorage, private snackBar: MatSnackBar) { }
 
   getNotice = (type: string | undefined) => {
-    return this.store.list<Notice>(`/uploads/${type}`).valueChanges();
+    return this.store.list<Notice>(`/uploads/${type}`, ref => ref.orderByChild('counter')).valueChanges();
   }
 
 
-  uploadFile = (file: File, name: string, date: string, filePath: string, type: string | undefined) => {
+  uploadFile = (file: File, name: string, date: string, filePath: string, type: string | undefined, counter: number) => {
     const notice: Notice = {
       name,
       id: name,
       date,
       url: '',
-      progress: '0'
+      progress: '0',
+      counter
     };
 
     this.store.object<any>(`/uploads/${type}/${name}`).update(notice).then(() => {

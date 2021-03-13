@@ -75,7 +75,7 @@ export class UploadComponent implements OnInit, OnChanges {
     }
     if (this.type === 'assignments' && this.userType === 'Student') {
      // this.displayedColumns = [...this.displayedColumns, 'upload', 'subStudent'];
-      columns = ['select', 'date', 'name', 'upload', 'subStudent'];
+      columns = ['date', 'name', 'upload', 'subStudent'];
     }
     if (type !== 'assignments' && userType === 'Student') {
       // this.displayedColumns = [...this.displayedColumns, 'delete', 'subTeacher'];
@@ -95,7 +95,8 @@ export class UploadComponent implements OnInit, OnChanges {
       filePath = `/uploads/${this.type}/${this.subject}-${name}`;
       name = `${this.subject}-${name}`;
     }
-    this.uploadService.uploadFile(file, name, this.getFormattedDate(new Date()), filePath, this.type);
+    const counter = this.notices.length + 1;
+    this.uploadService.uploadFile(file, name, this.getFormattedDate(new Date()), filePath, this.type, counter);
 
   }
 
@@ -129,6 +130,8 @@ export class UploadComponent implements OnInit, OnChanges {
 
   getCounter() {
     const tempSubject = this.subject ? this.subject : '';
+    console.log(tempSubject);
+
     const filteredNotices = this.notices.filter(notice => notice.name.startsWith(tempSubject));
     if (filteredNotices.length === 0) {
       return '1';

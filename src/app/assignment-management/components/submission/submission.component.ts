@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { LoginService } from 'src/app/login/service/login.service';
 import { AssignmentManagementService } from '../../services/assignment-management.service';
 
@@ -16,22 +16,23 @@ export class SubmissionComponent implements OnInit {
   userType: any;
   result: any;
 
-  constructor(private route: ActivatedRoute, private assignmentService: AssignmentManagementService, private loginService: LoginService) { }
+  constructor(private router: Router, private route: ActivatedRoute, private assignmentService: AssignmentManagementService,
+              private loginService: LoginService) { }
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
       console.log(params.id);
-      if (this.loginService.getUser().userType === 'Student'){
+      if (this.loginService.getUser().userType === 'Student') {
         this.assignmentService.getAssignmentsListForStudent(params.id, this.loginService.getUser().userId).subscribe(result => {
           this.result = result ? [result] : [];
           this.dataSource = new MatTableDataSource(this.result);
         });
-      }else{
-      this.assignmentService.getAssignmentsListForTeacher(params.id).subscribe(result => {
-        this.result = result.reverse();
-        this.dataSource = new MatTableDataSource(this.result);
-      });
-    }
+      } else {
+        this.assignmentService.getAssignmentsListForTeacher(params.id).subscribe(result => {
+          this.result = result.reverse();
+          this.dataSource = new MatTableDataSource(this.result);
+        });
+      }
     });
   }
 
@@ -44,6 +45,10 @@ export class SubmissionComponent implements OnInit {
     if (url.length > 0) {
       window.open(url);
     }
+  }
+
+  goBack = () => {
+    this.router.navigateByUrl('assignment');
   }
 
 }
